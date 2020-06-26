@@ -7,18 +7,18 @@
 
         <div class="border" />
 
-        <!-- <app-filters /> -->
+        <app-filters />
 
         
     </div>
 </template>
 
 <script>
-    // const AppFilters = () => import('./filters/index.vue')
+    const AppFilters = () => import('./filters/index.vue')
     export default {
-        // components: {
-        //     AppFilters
-        // }
+        components: {
+            AppFilters
+        }
     }
 </script>
 
@@ -31,6 +31,7 @@
         padding-top: 32px
         padding-left: 113px
         padding-right: 113px
+        user-select: none
 
     .title
         font-size: 32px
