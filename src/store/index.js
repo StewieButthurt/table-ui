@@ -12,35 +12,42 @@ export default new Vuex.Store({
         }],
         filters: [{
                 title: 'Product (100g serving)',
+                serverName: 'product',
                 status: false,
                 view: true
             },
             {
                 title: 'Calories',
+                serverName: 'calories',
                 status: false,
                 view: true
             },
             {
                 title: 'Fat(g)',
+                serverName: 'fat',
                 status: false,
                 view: true
             },
             {
                 title: 'Carbs(g)',
+                serverName: 'carbs',
                 status: false,
                 view: true
             },
             {
                 title: 'Protein(g)',
+                serverName: 'protein',
                 status: false,
                 view: true
             },
             {
                 title: 'Iron(%)',
+                serverName: 'iron',
                 status: false,
                 view: true
             }
-        ]
+        ],
+        filterSelect: []
     },
     mutations: {
         setPerPage(state, value) {
@@ -65,6 +72,9 @@ export default new Vuex.Store({
                 }
             }
 
+        },
+        setFilterSelect(state, arr) {
+            state.filterSelect = arr
         }
     },
     actions: {
@@ -79,12 +89,24 @@ export default new Vuex.Store({
         },
         async setViewSelectAll({ commit }, { value, index }) {
             commit('setViewSelectAll', { value, index })
+        },
+        async setFilterSelect({ commit, state }) {
+            let arr = []
+            for (let i = 0; i < state.filters.length; i++) {
+                if (state.filters[i].status) {
+                    arr.unshift(state.filters[i])
+                } else {
+                    arr.push(state.filters[i])
+                }
+            }
+            commit('setFilterSelect', arr)
         }
     },
     getters: {
         perPage: state => state.perPage,
         filters: state => state.filters,
         selectAll: state => state.selectAll,
+        filterSelect: state => state.filterSelect,
     },
     modules: {
 

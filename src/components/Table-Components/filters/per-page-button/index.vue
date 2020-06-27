@@ -1,8 +1,10 @@
 <template>
-    <div class="filters__per-page-container">
+    <div class="filters__per-page-container"
+        v-click-outside="clickOutside"
+    >
         <div class="filters__per-page-button"
             @click="enter = !enter"
-            v-click-outside="clickOutside"
+            
         >
             {{title}}
 

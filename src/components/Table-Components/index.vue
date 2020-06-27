@@ -9,15 +9,18 @@
 
         <app-filters />
 
+        <app-table />
         
     </div>
 </template>
 
 <script>
     const AppFilters = () => import('./filters/index.vue')
+    const AppTable = () => import('./table/index.vue')
     export default {
         components: {
-            AppFilters
+            AppFilters,
+            AppTable
         }
     }
 </script>

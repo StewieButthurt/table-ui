@@ -74,7 +74,7 @@
         margin-top: 17px
         align-items: center
         transition: all 1s
-        width: 100%
+        width: max-content
 
     .sorting
         font-size: 14px

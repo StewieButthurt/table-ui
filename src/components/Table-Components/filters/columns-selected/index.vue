@@ -48,7 +48,6 @@
 </template>
 
 <script>
-    // import simplebar from 'simplebar-vue';
     import 'simplebar/dist/simplebar.min.css';
     const simplebar = () => import('simplebar-vue')
     const AppColumnsSelectedButton = () => import('./columns-selected-button.vue')
@@ -88,11 +87,9 @@
                 let counter = 0
                 for(let i = 0; i < this.filters.length; i++) {
                     if(this.filters[i].view) {
-                        console.log('counter++')
                         counter++
                     }
                 }
-                console.log(counter)
                 return counter
             },
         }
