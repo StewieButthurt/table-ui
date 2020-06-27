@@ -25,8 +25,7 @@ export default {
   @import "~normalize.css"
   @import "./assets/fonts/source-sans-pro.css"
 
-  #app
-    width: 100%
-    display: flex
+  // #app
+  //   width: 100%
 
 </style>
