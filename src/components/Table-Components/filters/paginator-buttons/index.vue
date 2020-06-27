@@ -1,7 +1,7 @@
 <template>
     <div class="filters__paginator-container">
         <div class="filters__paginator-button filters__paginator-button-left"
-            :class="{'filters__paginator-button-disabled' : buttonDisabled}"
+            :class="{'filters__paginator-button-disabled' : leftButtonDisabled}"
             @click="counterDecrement()"
         >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -18,7 +18,8 @@
             {{start}} - {{end}} of {{all}}
         </div>
         <div class="filters__paginator-button filters__paginator-button-right"
-            @click="counterIncrement()"        
+            @click="counterIncrement()"
+            :class="{'filters__paginator-button-disabled' : rightButtonDisabled}"  
         >
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 490.523 490.523" style="enable-background:new 0 0 490.523 490.523;" xml:space="preserve">
@@ -46,11 +47,18 @@
             }
         },
         computed: {
-            buttonDisabled() {
+            leftButtonDisabled() {
                 if(this.start > 1) {
                     return false
                 } else {
                     return true
+                }
+            },
+            rightButtonDisabled() {
+                if(this.end === this.all) {
+                    return true
+                } else {
+                    return false
                 }
             },
             perPageValue() {

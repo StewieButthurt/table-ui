@@ -1,7 +1,10 @@
 <template>
     <div class="filters__button"
         @click="$emit('clickButton', title)"
-        :class="{'hover-green' : status}"
+        v-show="view"
+        :class="{
+            'hover-green' : checkStatus
+        }"
     >
         {{title}}
     </div>
@@ -11,8 +14,24 @@
     export default {
         props: [
             'title',
-            'status'
-        ]
+            'status',
+            'index',
+            'view'
+        ],
+        computed: {
+            checkStatus() {
+                if(this.view) {
+                    return this.status
+                } else {
+                    this.$store.dispatch('setStatus', {
+                        index: this.index,
+                        value: false
+                    })
+                    this.status = false
+                    return false
+                }
+            }
+        }
     }
 </script>
 

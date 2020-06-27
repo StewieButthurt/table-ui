@@ -25,9 +25,9 @@
 <style lang="sass">
 
     .container
-        min-width: 1366px
         min-height: 600px
         margin: 0 auto
+        width: 1366px
         padding-top: 32px
         padding-left: 113px
         padding-right: 113px
