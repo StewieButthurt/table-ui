@@ -30,7 +30,7 @@
         ],
         methods: {
             async clickCheckbox() {
-                this.$store.dispatch('setViewProduct', {
+                this.$store.dispatch('products/setViewProduct', {
                     index: this.index,
                     value: !this.data.view
                 })

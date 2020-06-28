@@ -23,12 +23,12 @@
                 if(this.view) {
                     return this.status
                 } else {
-                    this.$store.dispatch('setStatus', {
+                    this.$store.dispatch('filters/setStatus', {
                         index: this.index,
                         value: false
                     })
-                    this.status = false
-                    return false
+                    // this.status = false
+                    // return false
                 }
             }
         }

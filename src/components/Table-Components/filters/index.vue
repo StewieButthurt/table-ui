@@ -36,12 +36,12 @@
             async clickButton(title) {
                 for(let i = 0; i < this.filters.length; i++) {
                     if(this.filters[i].title === title) {
-                        this.$store.dispatch('setStatus', {
+                        this.$store.dispatch('filters/setStatus', {
                             value: true,
                             index: i
                         })
                     } else {
-                        this.$store.dispatch('setStatus', {
+                        this.$store.dispatch('filters/setStatus', {
                             value: false,
                             index: i
                         })
@@ -58,10 +58,10 @@
         },
         computed: {
             filters() {
-                return this.$store.getters['filters']
+                return this.$store.getters['filters/filters']
             },
             selectAll() {
-                return this.$store.getters['selectAll']
+                return this.$store.getters['columnsSelected/selectAll']
             }
         }
     }

@@ -51,6 +51,7 @@
     import 'simplebar/dist/simplebar.min.css';
     const simplebar = () => import('simplebar-vue')
     const AppColumnsSelectedButton = () => import('./columns-selected-button.vue')
+
     export default {
         props: [
             'filters',
@@ -67,13 +68,13 @@
         },
         methods: {
             async clickCheckbox(index) {
-                this.$store.dispatch('setView', {
+                this.$store.dispatch('filters/setView', {
                     value: !this.filters[index].view,
                     index: index
                 })
             },
             async clickSelectAll(index) {
-                this.$store.dispatch('setViewSelectAll', {
+                await this.$store.dispatch('columnsSelected/setViewSelectAll', {
                     value: !this.filters[index].view,
                     index: index
                 })

@@ -35,7 +35,7 @@
         methods: {
             async clickCheckbox() {
                 this.view = !this.view
-                await this.$store.dispatch('setViewAllProducts', this.view)
+                await this.$store.dispatch('products/setViewAllProducts', this.view)
             }
         }
     }

@@ -37,9 +37,10 @@
 
 <script>
     const AppPageButtonElement = () => import('./per-page-element.vue')
+
     export default {
-        mounted() {
-            this.$store.dispatch('setPerPage', parseInt(this.title))
+        async mounted() {
+            this.$store.dispatch('perPage/setPerPage', parseInt(this.title))
         },
         data() {
             return {
@@ -67,7 +68,7 @@
             },
             async clickElement(title) {
                 this.title = title
-                this.$store.dispatch('setPerPage', parseInt(title))
+                this.$store.dispatch('perPage/setPerPage', parseInt(title))
             }
         }
     }

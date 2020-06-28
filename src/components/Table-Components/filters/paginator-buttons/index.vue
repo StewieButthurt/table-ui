@@ -38,6 +38,7 @@
     export default {
         async mounted() {
             this.end = this.perPageValue
+            this.all = this.getProducts.length
         },
         data() {
             return {
@@ -62,7 +63,7 @@
                 }
             },
             perPageValue() {
-                return this.$store.getters['perPage']
+                return this.$store.getters['perPage/perPage']
             },
             startIncrement() {
                 if(this.start === 1) {
@@ -104,6 +105,9 @@
                     return this.perPageValue
                 }
                 return this.end - this.perPageValue
+            },
+            getProducts() {
+                return this.$store.getters['products/products']
             }
         },
         watch: {

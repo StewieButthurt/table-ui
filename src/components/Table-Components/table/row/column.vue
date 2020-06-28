@@ -6,9 +6,6 @@
 
 <script>
     export default {
-        async mounted() {
-            console.log(this.val)
-        },
         props: [
             'serverName',
             'data',

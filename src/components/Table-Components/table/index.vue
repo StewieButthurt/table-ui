@@ -24,11 +24,11 @@
         },
         computed: {
             filterSelect() {
-                this.$store.dispatch('setFilterSelect')
-                return this.$store.getters['filterSelect']
+                this.$store.dispatch('filters/setFilterSelect')
+                return this.$store.getters['filters/filterSelect']
             },
             products() {
-                return this.$store.getters['products']
+                return this.$store.getters['products/products']
             }
         }
     }
