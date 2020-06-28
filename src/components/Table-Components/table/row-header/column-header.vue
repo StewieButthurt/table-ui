@@ -17,9 +17,5 @@
         font-size: 14px
         font-family: 'Source Sans Pro SemiBold', sans-serif
         color: #282136
-        display: flex
-        justify-content: center
-        align-items: center
-        margin-left: 25px
-        margin-right: 25px
+        width: 192px
 </style>

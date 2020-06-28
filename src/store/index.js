@@ -47,7 +47,28 @@ export default new Vuex.Store({
                 view: true
             }
         ],
-        filterSelect: []
+        filterSelect: [],
+        products: [
+
+            {
+                product: 'Frozen Yogurt',
+                calories: 125,
+                fat: 224,
+                carbs: 486,
+                protein: 696,
+                iron: 536,
+                view: false
+            },
+            {
+                product: 'Ice cream sandwich',
+                calories: 851,
+                fat: 519,
+                carbs: 735,
+                protein: 461,
+                iron: 366,
+                view: false
+            }
+        ]
     },
     mutations: {
         setPerPage(state, value) {
@@ -75,6 +96,9 @@ export default new Vuex.Store({
         },
         setFilterSelect(state, arr) {
             state.filterSelect = arr
+        },
+        setViewProduct(state, { index, value }) {
+            state.products[index].view = value
         }
     },
     actions: {
@@ -100,6 +124,14 @@ export default new Vuex.Store({
                 }
             }
             commit('setFilterSelect', arr)
+        },
+        async setViewProduct({ commit }, { index, value }) {
+            commit('setViewProduct', { index, value })
+        },
+        async setViewAllProducts({ commit, state }, value) {
+            for (let i = 0; i < state.products.length; i++) {
+                state.products[i].view = value
+            }
         }
     },
     getters: {
@@ -107,6 +139,7 @@ export default new Vuex.Store({
         filters: state => state.filters,
         selectAll: state => state.selectAll,
         filterSelect: state => state.filterSelect,
+        products: state => state.products
     },
     modules: {
 

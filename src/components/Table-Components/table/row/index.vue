@@ -1,25 +1,44 @@
 <template>
     <div class="row-component">
-        <!-- <app-column 
+        <div style="margin-right: 29px">
+            <app-checkbox 
+                :view="view"
+                @clickCheckbox="clickCheckbox"
+            />
+        </div>
+        
+        <app-column 
             v-for="(item, index) in filterSelect"
             :key="item.title"
             :index="index"
             :serverName="item.serverName"
             :data="data"
             :filterSelect="filterSelect"
-        /> -->
+        />
     </div>
 </template>
 
 <script>
     const AppColumn = () => import('./column.vue')
+    const AppCheckbox = () => import('@@/components/Table-Components/filters/checkbox/index.vue')
     export default {
         props: [
             'data',
-            'filterSelect'
+            'filterSelect',
+            'view',
+            'index'
         ],
+        methods: {
+            async clickCheckbox() {
+                this.$store.dispatch('setViewProduct', {
+                    index: this.index,
+                    value: !this.data.view
+                })
+            }
+        },
         components: {
-            AppColumn
+            AppColumn,
+            AppCheckbox
         }
     }
 </script>

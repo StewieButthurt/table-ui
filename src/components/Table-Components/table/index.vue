@@ -1,11 +1,14 @@
 <template>
     <div class="table">
-        <app-row-header />
+        <app-row-header 
+            :filterSelect="filterSelect"
+        />
         <app-row 
-            v-for="(item, index) in list"
+            v-for="(item, index) in products"
             :key="item.product"
             :index="index"
             :data="item"
+            :view="item.view"
             :filterSelect="filterSelect"
         />
     </div>
@@ -19,24 +22,13 @@
             AppRowHeader,
             AppRow
         },
-        data() {
-            return {
-                list: [
-                    {
-                        product: 'Frozen Yogurt',
-                        calories: 125,
-                        fat: 224,
-                        carbs: 486,
-                        protein: 696,
-                        iron: 536
-                    }
-                ]
-            }
-        },
         computed: {
             filterSelect() {
                 this.$store.dispatch('setFilterSelect')
                 return this.$store.getters['filterSelect']
+            },
+            products() {
+                return this.$store.getters['products']
             }
         }
     }

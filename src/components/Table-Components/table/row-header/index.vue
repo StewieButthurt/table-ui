@@ -1,9 +1,12 @@
 <template>
     <div class="row-header">
-        <app-checkbox
-            :view="view"
-            @clickCheckbox="clickCheckbox"
-        />
+        <div style="margin-right: 30px">
+            <app-checkbox
+                :view="view"
+                @clickCheckbox="clickCheckbox"
+            />
+        </div>
+        
         <app-column-header 
             v-for="(item, index) in filterSelect"
             :key="item.title"
@@ -22,19 +25,17 @@
                 view: false
             }
         },
+        props: [
+            'filterSelect'
+        ],
         components: {
             AppColumnHeader,
             AppCheckbox
         },
-        computed: {
-            filterSelect() {
-                this.$store.dispatch('setFilterSelect')
-                return this.$store.getters['filterSelect']
-            }
-        },
         methods: {
             async clickCheckbox() {
                 this.view = !this.view
+                await this.$store.dispatch('setViewAllProducts', this.view)
             }
         }
     }
