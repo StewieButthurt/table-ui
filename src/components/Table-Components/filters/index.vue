@@ -40,6 +40,9 @@
                             value: true,
                             index: i
                         })
+                        await this.$store.dispatch('products/sortProducts', 
+                        this.filters[i].serverName)
+                        await this.$store.dispatch('products/setViewProducts')
                     } else {
                         this.$store.dispatch('filters/setStatus', {
                             value: false,

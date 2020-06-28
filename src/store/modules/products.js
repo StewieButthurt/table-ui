@@ -20,12 +20,13 @@ const state = () => ({
             view: false
         }
 
-    ]
+    ],
+    viewProducts: []
 })
 
 const mutations = {
     setViewProduct(state, { index, value }) {
-        state.products[index].view = value
+        state.viewProducts[index].view = value
     }
 }
 
@@ -34,14 +35,49 @@ const actions = {
         commit('setViewProduct', { index, value })
     },
     async setViewAllProducts({ commit, state }, value) {
-        for (let i = 0; i < state.products.length; i++) {
-            state.products[i].view = value
+        for (let i = 0; i < state.viewProducts.length; i++) {
+            state.viewProducts[i].view = value
+        }
+    },
+    async sortProducts({ commit, state }, serverName) {
+        if (serverName === 'product') {
+            state.products.sort((a, b) => {
+                let nameA = a[serverName].toLowerCase(),
+                    nameB = b[serverName].toLowerCase()
+
+                if (nameA < nameB) {
+                    return -1
+                }
+
+                if (nameA > nameB) {
+                    return 1
+                }
+
+            })
+        } else {
+            state.products.sort((a, b) => {
+                return a[serverName] - b[serverName]
+            })
+        }
+
+    },
+    async setProducts({ state }, { item, index }) {
+        state.products.push(item)
+        state.products[index].view = false
+    },
+    async setViewProducts({ rootGetters, state }) {
+        let start = rootGetters['paginator/start']
+        let end = rootGetters['paginator/end']
+        state.viewProducts = []
+        for (let i = start; i < end; i++) {
+            state.viewProducts.push(state.products[i])
         }
     }
 }
 
 const getters = {
-    products: state => state.products
+    products: state => state.products,
+    viewProducts: state => state.viewProducts
 }
 
 export default {

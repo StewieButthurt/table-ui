@@ -17,7 +17,21 @@
 <script>
     const AppFilters = () => import('./filters/index.vue')
     const AppTable = () => import('./table/index.vue')
+    const products = () => require('@@/api/products.json')
     export default {
+        async mounted() {
+            let arr = await products()
+
+            await arr.forEach((item, i) => {
+                this.$store.dispatch('products/setProducts', {
+                    index: i,
+                    item: item
+                })
+            })
+
+            await this.$store.dispatch('products/setViewProducts')
+            
+        },
         components: {
             AppFilters,
             AppTable

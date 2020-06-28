@@ -37,17 +37,19 @@
 <script>
     export default {
         async mounted() {
-            this.end = this.perPageValue
-            this.all = this.getProducts.length
-        },
-        data() {
-            return {
-                start: 1,
-                end: 10,
-                all: 113
-            }
+            this.$store.dispatch('paginator/setEnd', this.perPageValue)
+            this.$store.dispatch('paginator/setAll', this.getProducts.length)
         },
         computed: {
+            start() {
+                return this.$store.getters['paginator/start']
+            },
+            end() {
+                return this.$store.getters['paginator/end']
+            },
+            all() {
+                return this.$store.getters['paginator/all']
+            },
             leftButtonDisabled() {
                 if(this.start > 1) {
                     return false
@@ -56,7 +58,7 @@
                 }
             },
             rightButtonDisabled() {
-                if(this.end === this.all) {
+                if(this.end === this.all || this.perPageValue === this.endIncrement) {
                     return true
                 } else {
                     return false
@@ -68,7 +70,7 @@
             startIncrement() {
                 if(this.start === 1) {
                     if(this.perPageValue > this.all) {
-                        return this.all
+                        return 1
                     } else {
                         return this.perPageValue
                     }
@@ -97,7 +99,7 @@
             endDecrement() {
                 if(this.end <= this.perPageValue) {
                     if(this.perPageValue > this.all)  {
-                        return this.all
+                        return this.perPageValue
                     } else {
                         return this.perPageValue
                     }
@@ -113,23 +115,23 @@
         watch: {
             perPageValue(val) {
                 if(val > this.all) {
-                    this.end = this.all
-                    this.start = 1
+                    this.$store.dispatch('paginator/setEnd', this.all)
+                    this.$store.dispatch('paginator/setStart', 1)
                 } else {
-                    this.end = val
-                    this.start = 1
+                    this.$store.dispatch('paginator/setEnd', val)
+                    this.$store.dispatch('paginator/setStart', 1)
                 }
                 
             }
         },
         methods: {
             async counterIncrement() {
-                this.start = this.startIncrement
-                this.end = this.endIncrement
+                this.$store.dispatch('paginator/setStart', this.startIncrement)
+                this.$store.dispatch('paginator/setEnd', this.endIncrement)
             },
             async counterDecrement() {
-                this.start = this.startDecrement
-                this.end = this.endDecrement
+                this.$store.dispatch('paginator/setStart', this.startDecrement)
+                this.$store.dispatch('paginator/setEnd', this.endDecrement)
                 
             }
         }

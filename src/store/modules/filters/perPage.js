@@ -9,7 +9,7 @@ const mutations = {
 }
 
 const actions = {
-    setPerPage({ commit }, value) {
+    async setPerPage({ commit, dispatch }, value) {
         commit('setPerPage', value)
     },
 }

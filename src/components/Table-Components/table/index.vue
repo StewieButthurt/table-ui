@@ -4,8 +4,8 @@
             :filterSelect="filterSelect"
         />
         <app-row 
-            v-for="(item, index) in products"
-            :key="item.product"
+            v-for="(item, index) in viewProducts"
+            :key="item.index"
             :index="index"
             :data="item"
             :view="item.view"
@@ -27,8 +27,8 @@
                 this.$store.dispatch('filters/setFilterSelect')
                 return this.$store.getters['filters/filterSelect']
             },
-            products() {
-                return this.$store.getters['products/products']
+            viewProducts() {
+                return this.$store.getters['products/viewProducts']
             }
         }
     }

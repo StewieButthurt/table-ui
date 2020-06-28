@@ -61,11 +61,14 @@ const actions = {
     async setView({ commit }, { value, index }) {
         commit('setView', { value, index })
     },
-    async setFilterSelect({ commit, state }) {
+    async setFilterSelect({ commit, state, dispatch }) {
         let arr = []
         for (let i = 0; i < state.filters.length; i++) {
             if (state.filters[i].status) {
                 arr.unshift(state.filters[i])
+                dispatch('products/sortProducts',
+                    state.filters[i].serverName, { root: true }
+                )
             } else {
                 arr.push(state.filters[i])
             }

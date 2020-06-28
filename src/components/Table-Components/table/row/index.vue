@@ -28,6 +28,11 @@
             'view',
             'index'
         ],
+        watch: {
+            view(val) {
+                console.log(val)
+            }
+        },
         methods: {
             async clickCheckbox() {
                 this.$store.dispatch('products/setViewProduct', {

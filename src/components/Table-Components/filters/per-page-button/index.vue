@@ -68,7 +68,8 @@
             },
             async clickElement(title) {
                 this.title = title
-                this.$store.dispatch('perPage/setPerPage', parseInt(title))
+                await this.$store.dispatch('perPage/setPerPage', parseInt(title))
+                await this.$store.dispatch('products/setViewProducts', null, { root: true })
             }
         }
     }
