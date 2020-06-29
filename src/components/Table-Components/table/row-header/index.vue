@@ -13,6 +13,7 @@
             :index="index"
             :title="item.title"
             :sortColumn="item.sortColumn"
+            :filters="filters"
             @clickColumnName="clickColumnName"
         />
     </div>
@@ -28,16 +29,12 @@
             }
         },
         props: [
-            'filterSelect'
+            'filterSelect',
+            'filters'
         ],
         components: {
             AppColumnHeader,
             AppCheckbox
-        },
-        computed: {
-            filters() {
-                return this.$store.getters['filters/filters']
-            }
         },
         methods: {
             async clickCheckbox() {
@@ -96,4 +93,7 @@
         display: flex
         align-items: center
         height: 50px
+        padding-left: 37px
+        cursor: pointer
+        border-bottom: 1px solid #EDEDED
 </style>

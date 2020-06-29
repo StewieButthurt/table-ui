@@ -14,7 +14,9 @@
                 @clickButton="clickButton"
             />
         </div>
-        <app-delete-button />
+        <app-delete-button 
+            :products="products"
+        />
         <app-per-page-button />
         <app-paginators-buttons />
         <app-columns-selected 
@@ -82,6 +84,9 @@
             },
             selectAll() {
                 return this.$store.getters['columnsSelected/selectAll']
+            },
+            products() {
+                return this.$store.getters['products/products']
             }
         }
     }

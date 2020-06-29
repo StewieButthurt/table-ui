@@ -1,6 +1,7 @@
 const state = () => ({
     products: [],
-    viewProducts: []
+    viewProducts: [],
+    counterSelectProducts: 0
 })
 
 const mutations = {
@@ -10,6 +11,12 @@ const mutations = {
 const actions = {
     async setViewProduct({ state }, { index, value }) {
         state.products[index].view = value
+
+        if (value) {
+            state.counterSelectProducts++
+        } else {
+            state.counterSelectProducts--
+        }
     },
     async setViewAllProducts({ commit, rootGetters, state, }, value) {
         let start = rootGetters['paginator/start']
@@ -17,6 +24,12 @@ const actions = {
         await state.products.forEach((item, i) => {
             if (i >= (start === 1 ? start - 1 : start) && i < end) {
                 state.products[i].view = value
+
+                if (value) {
+                    state.counterSelectProducts++
+                } else {
+                    state.counterSelectProducts--
+                }
             }
         })
     },
@@ -85,7 +98,8 @@ const actions = {
 
 const getters = {
     products: state => state.products,
-    viewProducts: state => state.viewProducts
+    viewProducts: state => state.viewProducts,
+    counterSelectProducts: state => state.counterSelectProducts
 }
 
 export default {

@@ -1,18 +1,19 @@
 <template>
     <div class="filters__delete-button"
-        :class="{'filters__delete-button-disabled' : deleteButton.status}"
+        :class="{'filters__delete-button-disabled' : selectProductsCounter === 0}"
     >
-        Delete(3)
+        Delete ({{selectProductsCounter}})
     </div>
 </template>
 
 <script>
     export default {
-        data() {
-            return {
-                deleteButton: {
-                    status: true
-                }
+        computed: {
+            selectProductsCounter() {
+                return this.$store.getters['products/counterSelectProducts']
+            },
+            products() {
+                return this.$store.getters['products/products']
             }
         }
     }
@@ -22,6 +23,8 @@
 
     .filters__delete-button
         margin-left: 64px
+        font-size: 14px
+        width: 86px
         display: flex
         justify-content: center
         align-items: center
@@ -32,11 +35,8 @@
         border-radius: 2px
         user-select: none
         margin-right: 4px
-        color: #3D374A
-    
-    .filters__delete-button:hover
-        background-color: #00A11E
         color: #FFFFFF
+        background-color: #00A11E
     
     .filters__delete-button-disabled,
     .filters__delete-button-disabled:hover

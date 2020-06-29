@@ -1,5 +1,7 @@
 <template>
-    <div class="row-component__column">
+    <div class="row-component__column"
+        v-show="checkStatus"
+    >
         {{val}}
     </div>
 </template>
@@ -9,11 +11,16 @@
         props: [
             'serverName',
             'data',
-            'filterSelect'
+            'filterSelect',
+            'index',
+            'filters'
         ],
         computed: {
             val() {
                 return this.data[this.serverName]
+            },
+            checkStatus() {
+                return this.filters[this.index].view
             }
         }
     }

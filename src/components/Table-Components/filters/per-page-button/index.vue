@@ -50,10 +50,10 @@
                         perPage: '10 Per Page'
                     },
                     {
-                        perPage: '20 Per Page'
+                        perPage: '15 Per Page'
                     },
                     {
-                        perPage: '30 Per Page'
+                        perPage: '20 Per Page'
                     }
                 ],
                 enter: false

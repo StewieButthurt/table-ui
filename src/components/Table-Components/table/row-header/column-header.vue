@@ -1,5 +1,6 @@
 <template>
     <div class="table-header__column-name"
+        v-show="checkStatus"
         @click="$emit('clickColumnName', title)"
         :class="{'table-header__column-name-color-green' : typeof sortColumn === 'boolean'}"
     >
@@ -29,8 +30,15 @@
     export default {
         props: [
             'title',
-            'sortColumn'
-        ]
+            'sortColumn',
+            'filters',
+            'index'
+        ],
+        computed: {
+            checkStatus() {
+                return this.filters[this.index].view
+            }
+        }
     }
 </script>
 
@@ -40,6 +48,7 @@
         font-family: 'Source Sans Pro SemiBold', sans-serif
         color: #282136
         width: 180px
+        height: 100%
         box-sizing: border-box
         cursor: pointer
         display: flex

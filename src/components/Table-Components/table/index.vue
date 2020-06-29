@@ -2,14 +2,17 @@
     <div class="table">
         <app-row-header 
             :filterSelect="filterSelect"
+            :filters="filters"
         />
         <app-row 
             v-for="(item, index) in viewProducts"
             :key="index"
             :globalIndex="item.globalIndex"
             :data="item"
+            :index="index"
             :view="item.view"
             :filterSelect="filterSelect"
+            :filters="filters"
         />
     </div>
 </template>
@@ -29,6 +32,9 @@
             },
             viewProducts() {
                 return this.$store.getters['products/viewProducts']
+            },
+            filters() {
+                return this.$store.getters['filters/filters']
             }
         }
     }
@@ -36,9 +42,9 @@
 
 <style lang="sass">
     .table
-        padding-left: 37px
         width: 100%
         height: 547px
         margin-top: 20px
+        border-radius: 4px
     
 </style>
