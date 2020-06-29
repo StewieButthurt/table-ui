@@ -5,8 +5,8 @@
         />
         <app-row 
             v-for="(item, index) in viewProducts"
-            :key="item.index"
-            :index="index"
+            :key="index"
+            :globalIndex="item.globalIndex"
             :data="item"
             :view="item.view"
             :filterSelect="filterSelect"

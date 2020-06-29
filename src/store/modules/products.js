@@ -25,23 +25,26 @@ const state = () => ({
 })
 
 const mutations = {
-    setViewProduct(state, { index, value }) {
-        state.viewProducts[index].view = value
-    }
+
 }
 
 const actions = {
-    setViewProduct({ commit }, { index, value }) {
-        commit('setViewProduct', { index, value })
+    async setViewProduct({ state }, { index, value }) {
+        console.log(index, value)
+        state.products[index].view = value
     },
-    async setViewAllProducts({ commit, state }, value) {
-        for (let i = 0; i < state.viewProducts.length; i++) {
-            state.viewProducts[i].view = value
-        }
+    async setViewAllProducts({ commit, rootGetters, state, }, value) {
+        let start = rootGetters['paginator/start']
+        let end = rootGetters['paginator/end']
+        await state.products.forEach((item, i) => {
+            if (i >= (start === 1 ? start - 1 : start) && i < end) {
+                state.products[i].view = value
+            }
+        })
     },
     async sortProducts({ commit, state }, serverName) {
         if (serverName === 'product') {
-            state.products.sort((a, b) => {
+            await state.products.sort((a, b) => {
                 let nameA = a[serverName].toLowerCase(),
                     nameB = b[serverName].toLowerCase()
 
@@ -55,23 +58,27 @@ const actions = {
 
             })
         } else {
-            state.products.sort((a, b) => {
+            await state.products.sort((a, b) => {
                 return a[serverName] - b[serverName]
             })
         }
 
     },
-    async setProducts({ state }, { item, index }) {
+    async setProducts({ state }, { item, index, view = false }) {
         state.products.push(item)
-        state.products[index].view = false
+        state.products[index].view = view
+        state.products[index].globalIndex = index
     },
     async setViewProducts({ rootGetters, state }) {
         let start = rootGetters['paginator/start']
         let end = rootGetters['paginator/end']
         state.viewProducts = []
-        for (let i = start; i < end; i++) {
+        for (let i = start === 1 ? start - 1 : start; i < end; i++) {
             state.viewProducts.push(state.products[i])
         }
+    },
+    async clearProducts({ state }) {
+        state.products = []
     }
 }
 

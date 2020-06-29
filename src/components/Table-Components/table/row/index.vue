@@ -26,19 +26,15 @@
             'data',
             'filterSelect',
             'view',
-            'index'
+            'globalIndex'
         ],
-        watch: {
-            view(val) {
-                console.log(val)
-            }
-        },
         methods: {
             async clickCheckbox() {
-                this.$store.dispatch('products/setViewProduct', {
-                    index: this.index,
-                    value: !this.data.view
+                await this.$store.dispatch('products/setViewProduct', {
+                    index: this.globalIndex,
+                    value: !this.view
                 })
+                await this.$store.dispatch('products/setViewProducts')
             }
         },
         components: {

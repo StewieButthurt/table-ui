@@ -34,22 +34,41 @@
     export default {
         methods: {
             async clickButton(title) {
-                for(let i = 0; i < this.filters.length; i++) {
-                    if(this.filters[i].title === title) {
-                        this.$store.dispatch('filters/setStatus', {
-                            value: true,
-                            index: i
+                new Promise(async (resolve, reject) => {
+                    await this.filters.forEach(async (item, i) => {
+                        if(this.filters[i].title === title)  {
+                            await this.$store.dispatch('filters/setStatus', {
+                                value: true,
+                                index: i
+                            })
+                            resolve(i)
+                        } else {
+                            await this.$store.dispatch('filters/setStatus', {
+                                value: false,
+                                index: i
+                            })
+                        }
+                    })
+                })
+                .then(async i => {
+                    await this.$store.dispatch('products/sortProducts', 
+                    this.filters[i].serverName)
+
+                    const arr =  this.$store.getters['products/products']
+                    await this.$store.dispatch('products/clearProducts')
+                    await arr.forEach((item, i) => {
+                        this.$store.dispatch('products/setProducts', {
+                            index: i,
+                            item: item,
+                            view: item.view
                         })
-                        await this.$store.dispatch('products/sortProducts', 
-                        this.filters[i].serverName)
-                        await this.$store.dispatch('products/setViewProducts')
-                    } else {
-                        this.$store.dispatch('filters/setStatus', {
-                            value: false,
-                            index: i
-                        })
-                    }
-                }
+                    })
+                    await this.$store.dispatch('paginator/setStart', 1)
+                    await this.$store.dispatch('paginator/setEnd',
+                    await this.$store.getters['perPage/perPage'])
+                    await this.$store.dispatch('products/setViewProducts')
+                })
+                
             }
         },
         components: {

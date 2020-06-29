@@ -126,12 +126,14 @@
         },
         methods: {
             async counterIncrement() {
-                this.$store.dispatch('paginator/setStart', this.startIncrement)
-                this.$store.dispatch('paginator/setEnd', this.endIncrement)
+                await this.$store.dispatch('paginator/setStart', this.startIncrement)
+                await this.$store.dispatch('paginator/setEnd', this.endIncrement)
+                await this.$store.dispatch('products/setViewProducts', null, { root: true })
             },
             async counterDecrement() {
-                this.$store.dispatch('paginator/setStart', this.startDecrement)
-                this.$store.dispatch('paginator/setEnd', this.endDecrement)
+                await this.$store.dispatch('paginator/setStart', this.startDecrement)
+                await this.$store.dispatch('paginator/setEnd', this.endDecrement)
+                await this.$store.dispatch('products/setViewProducts', null, { root: true })
                 
             }
         }
