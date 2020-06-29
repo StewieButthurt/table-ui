@@ -51,9 +51,7 @@
                     })
                 })
                 .then(async i => {
-                    await this.$store.dispatch('products/sortProducts', 
-                    this.filters[i].serverName)
-
+                    
                     const arr =  this.$store.getters['products/products']
                     await this.$store.dispatch('products/clearProducts')
                     await arr.forEach((item, i) => {

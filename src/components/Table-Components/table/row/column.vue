@@ -24,5 +24,7 @@
         font-size: 14px
         font-family: 'Source Sans Pro Regular', sans-serif
         color: #282136
-        width: 192px
+        width: 180px
+        padding-right: 55px
+        box-sizing: border-box
 </style>

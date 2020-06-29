@@ -12,6 +12,8 @@
             :key="item.title"
             :index="index"
             :title="item.title"
+            :sortColumn="item.sortColumn"
+            @clickColumnName="clickColumnName"
         />
     </div>
 </template>
@@ -32,11 +34,58 @@
             AppColumnHeader,
             AppCheckbox
         },
+        computed: {
+            filters() {
+                return this.$store.getters['filters/filters']
+            }
+        },
         methods: {
             async clickCheckbox() {
                 this.view = !this.view
                 await this.$store.dispatch('products/setViewAllProducts', this.view)
                 await this.$store.dispatch('products/setViewProducts')
+            },
+            async clickColumnName(title) {
+                new Promise(async (resolve, reject) => {
+                    await this.filters.forEach(async (item, i) => {
+                        if(this.filters[i].title === title)  {
+                            let value = typeof this.filters[i].sortColumn === 'string' ?
+                                    true : !this.filters[i].sortColumn
+                            await this.$store.dispatch('filters/setSortColumn', {
+                                value: value,
+                                index: i
+                            })
+                            resolve({
+                                i: i, 
+                                value: value
+                            })
+                        } else {
+                            await this.$store.dispatch('filters/setSortColumn', {
+                                value: 'default',
+                                index: i
+                            })
+                        }
+                    })
+                })
+                .then(async ({i, value}) => {
+                    await this.$store.dispatch('products/sortProducts', {
+                        serverName: this.filters[i].serverName,
+                        value: value
+                    })
+                    const arr =  this.$store.getters['products/products']
+                    await this.$store.dispatch('products/clearProducts')
+                    await arr.forEach((item, i) => {
+                        this.$store.dispatch('products/setProducts', {
+                            index: i,
+                            item: item,
+                            view: item.view
+                        })
+                    })
+                    await this.$store.dispatch('paginator/setStart', 1)
+                    await this.$store.dispatch('paginator/setEnd',
+                    await this.$store.getters['perPage/perPage'])
+                    await this.$store.dispatch('products/setViewProducts')
+                })
             }
         }
     }

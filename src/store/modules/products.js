@@ -1,26 +1,5 @@
 const state = () => ({
-    products: [
-
-        {
-            product: 'Frozen Yogurt',
-            calories: 125,
-            fat: 224,
-            carbs: 486,
-            protein: 696,
-            iron: 536,
-            view: false
-        },
-        {
-            product: 'Ice cream sandwich',
-            calories: 851,
-            fat: 519,
-            carbs: 735,
-            protein: 461,
-            iron: 366,
-            view: false
-        }
-
-    ],
+    products: [],
     viewProducts: []
 })
 
@@ -30,7 +9,6 @@ const mutations = {
 
 const actions = {
     async setViewProduct({ state }, { index, value }) {
-        console.log(index, value)
         state.products[index].view = value
     },
     async setViewAllProducts({ commit, rootGetters, state, }, value) {
@@ -42,26 +20,49 @@ const actions = {
             }
         })
     },
-    async sortProducts({ commit, state }, serverName) {
-        if (serverName === 'product') {
-            await state.products.sort((a, b) => {
-                let nameA = a[serverName].toLowerCase(),
-                    nameB = b[serverName].toLowerCase()
+    async sortProducts({ commit, state }, { serverName, value }) {
+        if (value) {
+            if (serverName === 'product') {
+                await state.products.sort((a, b) => {
+                    let nameA = a[serverName].toLowerCase(),
+                        nameB = b[serverName].toLowerCase()
 
-                if (nameA < nameB) {
-                    return -1
-                }
+                    if (nameA < nameB) {
+                        return -1
+                    }
 
-                if (nameA > nameB) {
-                    return 1
-                }
+                    if (nameA > nameB) {
+                        return 1
+                    }
 
-            })
+                })
+            } else {
+                await state.products.sort((a, b) => {
+                    return a[serverName] - b[serverName]
+                })
+            }
         } else {
-            await state.products.sort((a, b) => {
-                return a[serverName] - b[serverName]
-            })
+            if (serverName === 'product') {
+                await state.products.reverse((a, b) => {
+                    let nameA = a[serverName].toLowerCase(),
+                        nameB = b[serverName].toLowerCase()
+
+                    if (nameA < nameB) {
+                        return -1
+                    }
+
+                    if (nameA > nameB) {
+                        return 1
+                    }
+
+                })
+            } else {
+                await state.products.reverse((a, b) => {
+                    return a[serverName] - b[serverName]
+                })
+            }
         }
+
 
     },
     async setProducts({ state }, { item, index, view = false }) {
