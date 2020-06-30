@@ -40,7 +40,7 @@
 
     export default {
         async mounted() {
-            this.$store.dispatch('perPage/setPerPage', parseInt(this.title))
+            await this.$store.dispatch('perPage/setPerPage', parseInt(this.title))
         },
         data() {
             return {
@@ -69,7 +69,7 @@
             async clickElement(title) {
                 this.title = title
                 await this.$store.dispatch('perPage/setPerPage', parseInt(title))
-                await this.$store.dispatch('products/setViewProducts', null, { root: true })
+                await this.$store.dispatch('products/setViewProducts')
             }
         }
     }

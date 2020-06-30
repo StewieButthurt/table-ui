@@ -1,3 +1,4 @@
+const AppRequest = require('@@/api/request.js')
 const state = () => ({
     products: [],
     viewProducts: [],
@@ -82,6 +83,8 @@ const actions = {
         state.products.push(item)
         state.products[index].view = view
         state.products[index].globalIndex = index
+        state.products[index].deleteButton = false
+
     },
     async setViewProducts({ rootGetters, state }) {
         let start = rootGetters['paginator/start']
@@ -93,6 +96,38 @@ const actions = {
     },
     async clearProducts({ state }) {
         state.products = []
+    },
+    async questionDeleteProduct({ state }, { index, value }) {
+        state.products[index].deleteButton = value
+    },
+    async deleteOneProduct({ state }, index) {
+        await state.products.splice(index, 1)
+    },
+    async deleteProduct({ dispatch, state }, { index, title }) {
+        try {
+            await AppRequest.deleteProducts()
+            await dispatch('products/deleteOneProduct',
+                index, { root: true })
+            let newProducts = state.products
+            await dispatch('products/clearProducts',
+                null, { root: true })
+            await newProducts.forEach((item, i) => {
+                dispatch('products/setProducts', {
+                    index: i,
+                    item: item
+                }, { root: true })
+            })
+            await dispatch('products/setViewProducts',
+                null, { root: true })
+            await dispatch('alert/setSuccess',
+                `Продукт ${title} успешно удален!`, { root: true }
+            )
+        } catch (e) {
+            await dispatch('alert/setError',
+                `Ошибка при удалении продукта ${title}!`, { root: true }
+            )
+            throw Error(`При удалении продукта произошла ошибка! ${e.error}!`)
+        }
     }
 }
 

@@ -37,8 +37,7 @@
 <script>
     export default {
         async mounted() {
-            this.$store.dispatch('paginator/setEnd', this.perPageValue)
-            this.$store.dispatch('paginator/setAll', this.getProducts.length)
+            await this.$store.dispatch('paginator/setEnd', this.perPageValue)
         },
         computed: {
             start() {
@@ -48,6 +47,7 @@
                 return this.$store.getters['paginator/end']
             },
             all() {
+                this.$store.dispatch('paginator/setAll', this.getProducts.length)
                 return this.$store.getters['paginator/all']
             },
             leftButtonDisabled() {

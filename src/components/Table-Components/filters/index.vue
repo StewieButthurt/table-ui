@@ -14,11 +14,15 @@
                 @clickButton="clickButton"
             />
         </div>
+        
         <app-delete-button 
             :products="products"
         />
+
         <app-per-page-button />
-        <app-paginators-buttons />
+
+        <app-paginators-buttons  />
+
         <app-columns-selected 
             :filters="filters"
             :selectAll="selectAll"

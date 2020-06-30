@@ -7,6 +7,7 @@
         <app-row 
             v-for="(item, index) in viewProducts"
             :key="index"
+            :title="item.product"
             :globalIndex="item.globalIndex"
             :data="item"
             :index="index"

@@ -9,7 +9,21 @@
 
         <app-filters />
 
-        <app-table />
+        <app-table 
+            v-if="!downloadError"
+        />
+
+        <app-error404 
+            v-if="downloadError"
+        />
+
+        <app-alert 
+            v-if="error || success"
+            :error="error"
+            :success="success"
+            :alertOff="alertOff"
+            @initAlert="initAlert"
+        />
         
     </div>
 </template>
@@ -17,24 +31,70 @@
 <script>
     const AppFilters = () => import('./filters/index.vue')
     const AppTable = () => import('./table/index.vue')
-    const products = () => require('@@/api/products.json')
+    const AppAlert = () => import('./alert.vue')
+    const AppError404 = () => import('./error404.vue')
+    const AppRequest = () => require('@@/api/request.js')
+
     export default {
-        async mounted() {
-            let arr = await products()
+        async beforeCreate() {
+            try {
+                const request = await AppRequest()
+                const getProducts = await request.getProducts()
 
-            await arr.forEach((item, i) => {
-                this.$store.dispatch('products/setProducts', {
-                    index: i,
-                    item: item
+                await getProducts.forEach((item, i) => {
+                    this.$store.dispatch('products/setProducts', {
+                        index: i,
+                        item: item
+                    })
                 })
-            })
 
-            await this.$store.dispatch('products/setViewProducts')
+                await this.$store.dispatch('products/setViewProducts')
+
+            } catch(e) {
+                this.downloadError = true
+                await this.$store.dispatch('alert/setError', 
+                `При загрузке продуктов произошла ошибка! ${e.error}!`
+                )
+                throw new Error(`При загрузке продуктов произошла ошибка! ${e.error}!`)
+            }
+            
             
         },
         components: {
             AppFilters,
-            AppTable
+            AppTable,
+            AppAlert,
+            AppError404
+        },
+        data() {
+            return {
+                downloadError: false
+            }
+        },
+        methods: {
+            async initAlert() {
+                let timer1 = setTimeout(() => {
+                    this.$store.dispatch('alert/setAlertOff', true)
+                }, 4000);
+
+                let timer2 = setTimeout(() => {
+                    this.$store.dispatch('alert/setError', false)
+                    this.$store.dispatch('alert/setSuccess', false)
+                    this.$store.dispatch('alert/setAlertOff', false)
+                }, 4500);
+                
+            }
+        },
+        computed: {
+            error() {
+                return this.$store.getters['alert/error']
+            },
+            success() {
+                return this.$store.getters['alert/success']
+            },
+            alertOff() {
+                return this.$store.getters['alert/alertOff']
+            }
         }
     }
 </script>
@@ -49,6 +109,8 @@
         padding-left: 113px
         padding-right: 113px
         user-select: none
+        font-family: 'Source Sans Pro Regular', sans-serif
+        font-size: 14px
 
     .title
         font-size: 32px
