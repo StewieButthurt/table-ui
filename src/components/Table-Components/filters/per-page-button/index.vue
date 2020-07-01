@@ -1,3 +1,4 @@
+<!-- компонент позволяет выбрать фильтрацию продуктов для пагинации (10, 15, 20) -->
 <template>
     <div class="filters__per-page-container"
         v-click-outside="clickOutside"
@@ -40,6 +41,8 @@
 
     export default {
         async mounted() {
+            // ищем цифру для фильтра пагинации и заполняем store
+            // по умолчанию '10 Per Page'
             await this.$store.dispatch('perPage/setPerPage', parseInt(this.title))
         },
         data() {
@@ -63,12 +66,16 @@
             AppPageButtonElement
         },
         methods: {
+            // обработка клика мимо всплывающего окна per-page
             async clickOutside(event) {
                 this.enter = false
             },
+            // обработка клика по фильтру per-page
             async clickElement(title) {
                 this.title = title
+                // установка значения фильтра (10, 15, 20)
                 await this.$store.dispatch('perPage/setPerPage', parseInt(title))
+                // собираем новый массив с учетом пагинации
                 await this.$store.dispatch('products/setViewProducts')
             }
         }

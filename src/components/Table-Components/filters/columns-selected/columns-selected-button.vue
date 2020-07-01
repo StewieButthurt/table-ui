@@ -1,5 +1,6 @@
 <template>
     <div class="filters__columns-selected-buttons">
+        <!-- компонент checkbox -->
         <app-checkbox 
             :view="view"
             @clickCheckbox="$emit('clickCheckbox', index)"

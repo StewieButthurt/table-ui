@@ -1,6 +1,3 @@
-const getFiltersStore = () =>
-    import ('@@/store/modules/filters/filters.js')
-
 const state = () => ({
     selectAll: [{
         title: 'Select All',
@@ -13,6 +10,8 @@ const mutations = {
 }
 
 const actions = {
+    // вызывается когда пользователь нажимает на checkbox 
+    // с пунктом SelectAll
     async setViewSelectAll({ state, rootGetters, dispatch }, { value, index }) {
 
         const filters = await rootGetters['filters/filters']

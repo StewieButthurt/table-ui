@@ -1,3 +1,4 @@
+<!-- заголовки колонок, при клике фильтрует массив по алфавиту или по числам -->
 <template>
     <div class="table-header__column-name"
         v-show="checkStatus"

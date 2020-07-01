@@ -9,6 +9,7 @@ const mutations = {
 }
 
 const actions = {
+    // устанавливаем фильтр пагинации (10, 15, 20)
     async setPerPage({ commit, dispatch }, value) {
         commit('setPerPage', value)
     },

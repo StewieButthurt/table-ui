@@ -6,7 +6,7 @@
         </div>
 
         <div class="border" />
-
+        
         <app-filters />
 
         <app-table 
@@ -38,19 +38,23 @@
     export default {
         async beforeCreate() {
             try {
+                // импортируем API
                 const request = await AppRequest()
+                // получаем массив проудктов
                 const getProducts = await request.getProducts()
-
+                // перебираем и создаем новый массив
+                // с дополнительными ключами
                 await getProducts.forEach((item, i) => {
                     this.$store.dispatch('products/setProducts', {
                         index: i,
                         item: item
                     })
                 })
-
+                // создаем массив с учетом пагинации
                 await this.$store.dispatch('products/setViewProducts')
 
             } catch(e) {
+                // обработка ошибок
                 this.downloadError = true
                 await this.$store.dispatch('alert/setError', 
                 `При загрузке продуктов произошла ошибка! ${e.error}!`

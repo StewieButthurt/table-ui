@@ -1,3 +1,4 @@
+ <!-- компонент строки таблицы -->
 <template>
     <div class="row-component"
         @mouseenter="enter = true"
@@ -14,7 +15,7 @@
                 @clickCheckbox="clickCheckbox"
             />
         </div>
-        
+        <!-- компонент с заголовком колонки, позволяет фильтровать колонки -->
         <app-column 
             v-for="(item, index) in filterSelect"
             :key="item.title"
@@ -24,7 +25,7 @@
             :filterSelect="filterSelect"
             :filters="filters"
         />
-
+        <!-- компонент для удаления продуктов -->
         <app-delete-row 
             :globalIndex="globalIndex"
             :index="index"
@@ -59,26 +60,34 @@
             }
         },
         computed: {
+            // проверка на четность
+            // вешаем класс
             checkEven() {
                 return this.index % 2
             }
         },
         methods: {
+            // обрабатываем клик по checkbox
             async clickCheckbox() {
                 await this.$store.dispatch('products/setViewProduct', {
                     index: this.globalIndex,
                     value: !this.view
                 })
+                // обновляем массив исходя из пагинации
                 await this.$store.dispatch('products/setViewProducts')
             },
+            // обработка клика по кнопка delete в строках таблицы
+            // спрашиваем о подтверждении удаления
             async clickDelete(index) {
                 this.statusButton = true
             },
-            async clickCancelButton({index, globalIndex}) {
+            // обработка клика по кнопке cancel
+            async clickCancelButton() {
                 this.enter = false
                 this.statusButton = false
             },
-            async clickConfirmButton(index) {
+            // обработка клика по кнопке confirm
+            async clickConfirmButton() {
                 this.enter = false
                 this.statusButton = false
                 await this.$store.dispatch('products/deleteProduct', {

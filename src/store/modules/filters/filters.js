@@ -64,15 +64,22 @@ const mutations = {
 }
 
 const actions = {
+    // устанавливаем status конкретного фильтра
+    // от статуса зависит подсветка кнопки
     async setStatus({ commit }, { value, index }) {
         commit('setStatus', { value, index })
     },
+    // устанавливаем view конкретного фильтра
+    // view скрывает/активирует кнопку
     async setView({ commit }, { value, index }) {
         commit('setView', { value, index })
     },
+    // устанавлиаем значение сортировки
+    // ('default', true, false)
     async setSortColumn({ commit }, { value, index }) {
         commit('setSortColumn', { value, index })
     },
+    // устанавливаем выбранную колонку первой
     async setFilterSelect({ commit, state, dispatch }) {
         let arr = []
         for (let i = 0; i < state.filters.length; i++) {

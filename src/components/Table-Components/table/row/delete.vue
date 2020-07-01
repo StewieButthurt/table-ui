@@ -1,3 +1,4 @@
+ <!-- компонент позволяющий удалять строку таблицы -->
 <template>
     <div class="row-component__delete-container">
         <div class="row-component__delete"
@@ -38,15 +39,12 @@
             </div>
             <div class="row-component__delete-question-buttons">
                 <div class="question-button"
-                    @click="$emit('clickCancelButton', {
-                        globalIndex: globalIndex,
-                        index: index
-                    })"
+                    @click="$emit('clickCancelButton')"
                 >
                     Cancel
                 </div>
                 <div class="question-button question-button-confirm"
-                    @click="$emit('clickConfirmButton', globalIndex)"
+                    @click="$emit('clickConfirmButton')"
                 >
                     Confirm
                 </div>

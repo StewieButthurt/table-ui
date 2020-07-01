@@ -25,6 +25,8 @@ const actions = {
     async setSuccess({ commit }, value) {
         commit('setSuccess', value)
     },
+    // от установки этого параметра
+    // зависит отрисовка компонента алерта
     async setAlertOff({ commit }, value) {
         commit('setAlertOff', value)
     }

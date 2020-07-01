@@ -1,3 +1,4 @@
+<!-- компонет шапки таблицы, содержащий названия колонок -->
 <template>
     <div class="row-header">
         <div style="margin-right: 30px">

@@ -1,3 +1,4 @@
+<!-- компонент checkbox -->
 <template>
     <div class="checkbox"
         @click="$emit('clickCheckbox')"

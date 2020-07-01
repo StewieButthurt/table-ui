@@ -1,3 +1,4 @@
+<!-- компонент содержаний кнопку delete в фильтрах -->
 <template>
     <div class="filters__delete-button"
         :class="{'filters__delete-button-disabled' : selectProductsCounter === 0}"
@@ -9,9 +10,11 @@
 <script>
     export default {
         computed: {
+            // счетчик выбранных товаров
             selectProductsCounter() {
                 return this.$store.getters['products/counterSelectProducts']
             },
+            // массив с продуктами
             products() {
                 return this.$store.getters['products/products']
             }

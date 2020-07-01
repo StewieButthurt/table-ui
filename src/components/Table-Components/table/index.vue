@@ -1,3 +1,4 @@
+<!-- компонент основной структуры таблицы -->
 <template>
     <div class="table">
         <app-row-header 
@@ -27,13 +28,18 @@
             AppRow
         },
         computed: {
+            // при status === true в элементе массива,
+            // ставит колонку на первое место и возвращает 
+            // новый массив фильтров
             filterSelect() {
                 this.$store.dispatch('filters/setFilterSelect')
                 return this.$store.getters['filters/filterSelect']
             },
+            // возвращает массив с продуктами с учетом пагинации
             viewProducts() {
                 return this.$store.getters['products/viewProducts']
             },
+            // возвращает оригинальный массив 
             filters() {
                 return this.$store.getters['filters/filters']
             }

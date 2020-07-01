@@ -1,3 +1,4 @@
+<!-- компонент содержащий пагинацию для управлением таблицей -->
 <template>
     <div class="filters__paginator-container">
         <div class="filters__paginator-button filters__paginator-button-left"
@@ -37,19 +38,24 @@
 <script>
     export default {
         async mounted() {
+            // при монтировании страницы заполняем setEnd в store
             await this.$store.dispatch('paginator/setEnd', this.perPageValue)
         },
         computed: {
+            // первый элемент массива с пагинацией
             start() {
                 return this.$store.getters['paginator/start']
             },
+            // последний элемент массива с пагинацией
             end() {
                 return this.$store.getters['paginator/end']
             },
+            // кол-во продуктов
             all() {
                 this.$store.dispatch('paginator/setAll', this.getProducts.length)
                 return this.$store.getters['paginator/all']
             },
+            // отключаем или включаем кнопку пагинации (назад)
             leftButtonDisabled() {
                 if(this.start > 1) {
                     return false
@@ -57,6 +63,7 @@
                     return true
                 }
             },
+            // отключаем или включаем кнопку пагинации (вперед)
             rightButtonDisabled() {
                 if(this.end === this.all || this.perPageValue === this.endIncrement) {
                     return true
@@ -64,9 +71,12 @@
                     return false
                 }
             },
+            // получаем выбранный пользователем фильтр пагинации (10, 15, 20)
             perPageValue() {
                 return this.$store.getters['perPage/perPage']
             },
+            // получаем номер n в пагинации n - 10 of 1000
+            // при клике на кнопку >
             startIncrement() {
                 if(this.start === 1) {
                     if(this.perPageValue > this.all) {
@@ -82,12 +92,16 @@
                     return this.start + this.perPageValue
                 }
             },
+            // получаем номер n в пагинации 1 - n of 1000
+            // при клике на кнопку >
             endIncrement() {
                 if(this.perPageValue > (this.all - this.end)) {
                     return this.end + (this.all - this.end)
                 }
                 return this.end + this.perPageValue
             },
+            // получаем номер n в пагинации n - 10 of 1000
+            // при клике на кнопку <
             startDecrement() {
                 if(this.start === this.perPageValue ||
                     this.start < this.perPageValue
@@ -96,6 +110,8 @@
                 }
                 return this.start - this.perPageValue
             },
+            // получаем номер n в пагинации 1 - n of 1000
+            // при клике на кнопку <
             endDecrement() {
                 if(this.end <= this.perPageValue) {
                     if(this.perPageValue > this.all)  {
@@ -108,11 +124,13 @@
                 }
                 return this.end - this.perPageValue
             },
+            // получаем массив продуктов
             getProducts() {
                 return this.$store.getters['products/products']
             }
         },
         watch: {
+            // обработка выбора фильтра пагинации (10, 15, 20)
             perPageValue(val) {
                 if(val > this.all) {
                     this.$store.dispatch('paginator/setEnd', this.all)
@@ -125,11 +143,15 @@
             }
         },
         methods: {
+            // рассчитываем n - n of n 
+            // при клике на кнопку >
             async counterIncrement() {
                 await this.$store.dispatch('paginator/setStart', this.startIncrement)
                 await this.$store.dispatch('paginator/setEnd', this.endIncrement)
                 await this.$store.dispatch('products/setViewProducts', null, { root: true })
             },
+            // рассчитываем n - n of n 
+            // при клике на кнопку <
             async counterDecrement() {
                 await this.$store.dispatch('paginator/setStart', this.startDecrement)
                 await this.$store.dispatch('paginator/setEnd', this.endDecrement)

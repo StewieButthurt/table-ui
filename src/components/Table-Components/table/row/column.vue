@@ -1,3 +1,4 @@
+ <!-- компонент с заголовком колонки, позволяет фильтровать колонки -->
 <template>
     <div class="row-component__column"
         v-show="checkStatus"
