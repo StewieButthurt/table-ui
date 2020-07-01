@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "vue-cli-service serve",
         "build": "vue-cli-service build",
+        "start": "cross-env NODE_ENV=production node server/index.js",
         "heroku-postbuild": "npm run build"
     },
     "engines": {
@@ -13,6 +14,7 @@
     },
     "dependencies": {
         "core-js": "^3.6.5",
+        "experss": "0.0.1-security",
         "normalize.css": "^8.0.1",
         "simplebar-vue": "^1.5.1",
         "v-click-outside": "^3.0.1",
@@ -25,6 +27,7 @@
         "@vue/cli-plugin-router": "~4.4.0",
         "@vue/cli-plugin-vuex": "~4.4.0",
         "@vue/cli-service": "~4.4.0",
+        "cross-env": "^7.0.2",
         "node-sass": "^4.12.0",
         "sass-loader": "^8.0.2",
         "vue-template-compiler": "^2.6.11"
