@@ -1,3 +1,4 @@
+<!-- компонент содержащий кнопку, по клику которой колонка становится первой -->
 <template>
     <div class="filters__button"
         @click="$emit('clickButton', title)"
@@ -19,16 +20,16 @@
             'view'
         ],
         computed: {
+            // проверка на выбранную колонку
+            // вешаем класс hover-green
             checkStatus() {
                 if(this.view) {
                     return this.status
                 } else {
-                    this.$store.dispatch('setStatus', {
+                    this.$store.dispatch('filters/setStatus', {
                         index: this.index,
                         value: false
                     })
-                    this.status = false
-                    return false
                 }
             }
         }

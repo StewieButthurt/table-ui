@@ -1,8 +1,11 @@
+<!-- компонент позволяет выбрать фильтрацию продуктов для пагинации (10, 15, 20) -->
 <template>
-    <div class="filters__per-page-container">
+    <div class="filters__per-page-container"
+        v-click-outside="clickOutside"
+    >
         <div class="filters__per-page-button"
             @click="enter = !enter"
-            v-click-outside="clickOutside"
+            
         >
             {{title}}
 
@@ -35,9 +38,12 @@
 
 <script>
     const AppPageButtonElement = () => import('./per-page-element.vue')
+
     export default {
-        mounted() {
-            this.$store.dispatch('setPerPage', parseInt(this.title))
+        async mounted() {
+            // ищем цифру для фильтра пагинации и заполняем store
+            // по умолчанию '10 Per Page'
+            await this.$store.dispatch('perPage/setPerPage', parseInt(this.title))
         },
         data() {
             return {
@@ -47,10 +53,10 @@
                         perPage: '10 Per Page'
                     },
                     {
-                        perPage: '20 Per Page'
+                        perPage: '15 Per Page'
                     },
                     {
-                        perPage: '30 Per Page'
+                        perPage: '20 Per Page'
                     }
                 ],
                 enter: false
@@ -60,12 +66,17 @@
             AppPageButtonElement
         },
         methods: {
+            // обработка клика мимо всплывающего окна per-page
             async clickOutside(event) {
                 this.enter = false
             },
+            // обработка клика по фильтру per-page
             async clickElement(title) {
                 this.title = title
-                this.$store.dispatch('setPerPage', parseInt(title))
+                // установка значения фильтра (10, 15, 20)
+                await this.$store.dispatch('perPage/setPerPage', parseInt(title))
+                // собираем новый массив с учетом пагинации
+                await this.$store.dispatch('products/setViewProducts')
             }
         }
     }

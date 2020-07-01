@@ -1,3 +1,4 @@
+<!-- компонент позволяющий выбирать колонки с помощью checkbox -->
 <template>
     <div class="filters__columns-selected-container"
         v-click-outside="clickOutside"
@@ -23,8 +24,10 @@
         <div class="filters__columns-selected-window"
             v-show="status"
         >   
+            <!-- модуль добавляющий кастомную прокрутку -->
             <simplebar class="test" data-simplebar-auto-hide="true">
                 <span id="columns-select-button">
+                    <!-- строка selectAll с checkbox -->
                     <app-columns-selected-button
                         v-for="(item, index) in selectAll"
                         :key="item.title"
@@ -34,6 +37,7 @@
                         @clickCheckbox="clickSelectAll"
                     />
                 </span>
+                <!-- компонент позволяющий выбирать колонки по checkbox -->
                 <app-columns-selected-button 
                     v-for="(item, index) in filters"
                     :key="item.title"
@@ -48,10 +52,10 @@
 </template>
 
 <script>
-    // import simplebar from 'simplebar-vue';
     import 'simplebar/dist/simplebar.min.css';
     const simplebar = () => import('simplebar-vue')
     const AppColumnsSelectedButton = () => import('./columns-selected-button.vue')
+
     export default {
         props: [
             'filters',
@@ -67,32 +71,34 @@
             simplebar
         },
         methods: {
+            // обработка клика по checkbox у выбранного продукта
             async clickCheckbox(index) {
-                this.$store.dispatch('setView', {
+                this.$store.dispatch('filters/setView', {
                     value: !this.filters[index].view,
                     index: index
                 })
             },
+            // обработка клика по checkbox для всех продуктов
             async clickSelectAll(index) {
-                this.$store.dispatch('setViewSelectAll', {
+                await this.$store.dispatch('columnsSelected/setViewSelectAll', {
                     value: !this.filters[index].view,
                     index: index
                 })
             },
+            // обработка клика мимо окна
             async clickOutside(event) {
                 this.status = false
             }
         },
         computed: {
+            // счетчик выбранных колонок 
             columnsSelected() {
                 let counter = 0
                 for(let i = 0; i < this.filters.length; i++) {
                     if(this.filters[i].view) {
-                        console.log('counter++')
                         counter++
                     }
                 }
-                console.log(counter)
                 return counter
             },
         }
@@ -132,6 +138,8 @@
         height: 100%
 
     .filters__columns-selected-window
+        z-index: 10
+        background-color: white
         position: absolute
         width: max-content
         top: 40px
