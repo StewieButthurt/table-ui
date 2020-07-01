@@ -144,9 +144,9 @@ const actions = {
         state.products[index].deleteButton = value
     },
     // удаляем выбранный продукт из массива
-    async deleteOneProduct({ state }, index) {
+    async deleteOneProduct({ state, dispatch }, index) {
         await state.products.splice(index, 1)
-        await dispatch('checkViewAllStatus',
+        await dispatch('products/checkViewAllStatus',
             null, { root: true })
         if (state.counterSelectProducts > 0) {
             state.counterSelectProducts--
@@ -154,46 +154,46 @@ const actions = {
     },
     // функция удаления продукта
     async deleteProduct({ dispatch, state }, { index, title }) {
-        try {
-            // API эмитации сервера
-            await AppRequest.deleteProducts()
+        // try {
+        // API эмитации сервера
+        await AppRequest.deleteProducts()
 
-            // удаляем продукт из массива
-            await dispatch('products/deleteOneProduct',
-                index, { root: true })
+        // удаляем продукт из массива
+        await dispatch('products/deleteOneProduct',
+            index, { root: true })
 
-            // снимаем копию массива
-            let newProducts = state.products
+        // снимаем копию массива
+        let newProducts = state.products
 
-            // очищаем оригинальный массив
-            await dispatch('products/clearProducts',
-                null, { root: true })
+        // очищаем оригинальный массив
+        await dispatch('products/clearProducts',
+            null, { root: true })
 
-            // создаем новый массив products
-            // из копии
-            for (const [index, value] of newProducts.entries()) {
-                dispatch('products/setProducts', {
-                    index: index,
-                    item: value,
-                    view: value.view
-                }, { root: true })
-            }
+        // создаем новый массив products
+        // из копии
+        for (const [index, value] of newProducts.entries()) {
+            dispatch('products/setProducts', {
+                index: index,
+                item: value,
+                view: value.view
+            }, { root: true })
+        }
 
-            // создаем массив с учетом пагинации
-            await dispatch('products/setViewProducts',
-                null, { root: true })
+        // создаем массив с учетом пагинации
+        await dispatch('products/setViewProducts',
+            null, { root: true })
 
-            // вызываем алерт об успешном удалении
-            await dispatch('alert/setSuccess',
+        // вызываем алерт об успешном удалении
+        await dispatch('alert/setSuccess',
                 `Продукт ${title} успешно удален!`, { root: true }
             )
-        } catch (e) {
-            // обработка ошибки
-            await dispatch('alert/setError',
-                `Ошибка при удалении продукта ${title}!`, { root: true }
-            )
-            throw Error(`При удалении продукта произошла ошибка! ${e.error}!`)
-        }
+            // } catch (e) {
+            //     // обработка ошибки
+            //     await dispatch('alert/setError',
+            //         `Ошибка при удалении продукта ${title}!`, { root: true }
+            //     )
+            //     throw Error(`При удалении продукта произошла ошибка! ${e.error}!`)
+            // }
     },
     async deleteMoreProducts({ state, dispatch }) {
         try {
