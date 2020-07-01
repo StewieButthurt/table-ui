@@ -19,6 +19,10 @@
         <!-- компонент кнопки delete -->
         <app-delete-button 
             :products="products"
+            :statusDeleteButton="statusDeleteButton"
+            @clickDeleteButton="clickDeleteButton"
+            @clickCancelButton="clickCancelButton"
+            @clickConfirmButton="clickConfirmButton"
         />
 
         <!-- компонент кнопки фильтра пагинации
@@ -47,6 +51,11 @@
     const AppColumnsSelected = () => import('./columns-selected/index.vue')
 
     export default {
+        data() {
+            return {
+                statusDeleteButton: false
+            }
+        },
         methods: {
             // обработка клика колонкам сортировки (product, calories, fat и тд)
             async clickButton(title) {
@@ -90,6 +99,17 @@
                     await this.$store.dispatch('products/setViewProducts')
                 })
                 
+            },
+            async clickDeleteButton() {
+                this.statusDeleteButton = true
+            },
+            async clickCancelButton() {
+                this.statusDeleteButton = false
+            },
+            async clickConfirmButton() {
+                this.statusDeleteButton = false
+
+                await this.$store.dispatch('products/deleteMoreProducts')
             }
         },
         components: {

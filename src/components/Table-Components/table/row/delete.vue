@@ -120,7 +120,8 @@
         flex-direction: column
         background: #FFFFFF
         padding: 16px
-        z-index: 1
+        z-index: 5
+        cursor: auto
         box-sizing: border-box
         border-radius: 4px
         box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16)
@@ -128,6 +129,7 @@
     .row-component__delete-question-text
         margin-top: 16px
         text-align: center
+
     .row-component__delete-question-buttons
         display: flex
         justify-content: center
@@ -144,6 +146,7 @@
         border-radius: 4px
         transition-duration: .2s
         margin-top: 8px
+        cursor: pointer
 
     .question-button:hover
         transition-duration: .2s

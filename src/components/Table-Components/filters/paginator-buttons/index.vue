@@ -149,6 +149,7 @@
                 await this.$store.dispatch('paginator/setStart', this.startIncrement)
                 await this.$store.dispatch('paginator/setEnd', this.endIncrement)
                 await this.$store.dispatch('products/setViewProducts', null, { root: true })
+                await this.$store.dispatch('products/checkViewAllStatus')
             },
             // рассчитываем n - n of n 
             // при клике на кнопку <
@@ -156,7 +157,7 @@
                 await this.$store.dispatch('paginator/setStart', this.startDecrement)
                 await this.$store.dispatch('paginator/setEnd', this.endDecrement)
                 await this.$store.dispatch('products/setViewProducts', null, { root: true })
-                
+                await this.$store.dispatch('products/checkViewAllStatus')
             }
         }
     }

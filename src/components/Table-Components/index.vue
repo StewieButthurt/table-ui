@@ -85,7 +85,7 @@
                     this.$store.dispatch('alert/setError', false)
                     this.$store.dispatch('alert/setSuccess', false)
                     this.$store.dispatch('alert/setAlertOff', false)
-                }, 4500);
+                }, 4100);
                 
             }
         },

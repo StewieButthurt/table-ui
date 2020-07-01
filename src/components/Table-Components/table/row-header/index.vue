@@ -24,9 +24,9 @@
     const AppColumnHeader = () => import('./column-header.vue')
     const AppCheckbox = () => import('@@/components/Table-Components/filters/checkbox/index.vue')
     export default {
-        data() {
-            return {
-                view: false
+        computed: {
+            view() {
+                return this.$store.getters['products/viewAllProductsStatus']
             }
         },
         props: [
@@ -38,9 +38,12 @@
             AppCheckbox
         },
         methods: {
-            async clickCheckbox() {
-                this.view = !this.view
-                await this.$store.dispatch('products/setViewAllProducts', this.view)
+            async clickCheckbox(localView) {
+                let view = !localView
+                await this.$store.dispatch('products/setViewAllProductsStatus', {
+                    view: view
+                })
+                await this.$store.dispatch('products/setViewAllProducts', view)
                 await this.$store.dispatch('products/setViewProducts')
             },
             async clickColumnName(title) {
