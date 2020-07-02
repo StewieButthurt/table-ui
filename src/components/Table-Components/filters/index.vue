@@ -62,15 +62,15 @@
                 new Promise(async (resolve, reject) => {
                     // проходим по массиву с фильтрами сортировки
                     // ищем нужный title и устанавлием ему статус
-                    await this.filters.forEach(async (item, i) => {
+                    this.filters.forEach((item, i) => {
                         if(this.filters[i].title === title)  {
-                            await this.$store.dispatch('filters/setStatus', {
+                            this.$store.dispatch('filters/setStatus', {
                                 value: true,
                                 index: i
                             })
                             resolve(i)
                         } else {
-                            await this.$store.dispatch('filters/setStatus', {
+                            this.$store.dispatch('filters/setStatus', {
                                 value: false,
                                 index: i
                             })
@@ -84,7 +84,7 @@
                     await this.$store.dispatch('products/clearProducts')
                     // перебираем копию, и создаем новый массив products
                     // в store
-                    await arr.forEach((item, i) => {
+                    arr.forEach((item, i) => {
                         this.$store.dispatch('products/setProducts', {
                             index: i,
                             item: item,

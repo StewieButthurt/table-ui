@@ -35,7 +35,7 @@ const actions = {
         }
         let start = rootGetters['paginator/start']
         let end = rootGetters['paginator/end']
-        await state.products.forEach((item, i) => {
+        state.products.forEach((item, i) => {
             if (i >= (start === 1 ? start - 1 : start) && i < end) {
                 state.products[i].view = value
 
@@ -53,7 +53,7 @@ const actions = {
     async sortProducts({ commit, state }, { serverName, value }) {
         if (value) {
             if (serverName === 'product') {
-                await state.products.sort((a, b) => {
+                state.products.sort((a, b) => {
                     let nameA = a[serverName].toLowerCase(),
                         nameB = b[serverName].toLowerCase()
 
@@ -67,13 +67,13 @@ const actions = {
 
                 })
             } else {
-                await state.products.sort((a, b) => {
+                state.products.sort((a, b) => {
                     return a[serverName] - b[serverName]
                 })
             }
         } else {
             if (serverName === 'product') {
-                await state.products.reverse((a, b) => {
+                state.products.reverse((a, b) => {
                     let nameA = a[serverName].toLowerCase(),
                         nameB = b[serverName].toLowerCase()
 
@@ -87,7 +87,7 @@ const actions = {
 
                 })
             } else {
-                await state.products.reverse((a, b) => {
+                state.products.reverse((a, b) => {
                     return a[serverName] - b[serverName]
                 })
             }
@@ -145,7 +145,7 @@ const actions = {
     },
     // удаляем выбранный продукт из массива
     async deleteOneProduct({ state, dispatch }, index) {
-        await state.products.splice(index, 1)
+        state.products.splice(index, 1)
         await dispatch('products/checkViewAllStatus',
             null, { root: true })
         if (state.counterSelectProducts > 0) {

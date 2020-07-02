@@ -48,11 +48,11 @@
             },
             async clickColumnName(title) {
                 new Promise(async (resolve, reject) => {
-                    await this.filters.forEach(async (item, i) => {
+                    this.filters.forEach((item, i) => {
                         if(this.filters[i].title === title)  {
                             let value = typeof this.filters[i].sortColumn === 'string' ?
                                     true : !this.filters[i].sortColumn
-                            await this.$store.dispatch('filters/setSortColumn', {
+                            this.$store.dispatch('filters/setSortColumn', {
                                 value: value,
                                 index: i
                             })
@@ -61,7 +61,7 @@
                                 value: value
                             })
                         } else {
-                            await this.$store.dispatch('filters/setSortColumn', {
+                            this.$store.dispatch('filters/setSortColumn', {
                                 value: 'default',
                                 index: i
                             })
@@ -75,7 +75,7 @@
                     })
                     const arr =  this.$store.getters['products/products']
                     await this.$store.dispatch('products/clearProducts')
-                    await arr.forEach((item, i) => {
+                    arr.forEach((item, i) => {
                         this.$store.dispatch('products/setProducts', {
                             index: i,
                             item: item,
