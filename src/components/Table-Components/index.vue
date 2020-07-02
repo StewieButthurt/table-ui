@@ -44,12 +44,12 @@
                 const getProducts = await request.getProducts()
                 // перебираем и создаем новый массив
                 // с дополнительными ключами
-                await getProducts.forEach((item, i) => {
+                for (const [index, value] of getProducts.entries()) {
                     this.$store.dispatch('products/setProducts', {
-                        index: i,
-                        item: item
+                        index: index,
+                        item: value
                     })
-                })
+                }
                 // создаем массив с учетом пагинации
                 await this.$store.dispatch('products/setViewProducts')
 
